@@ -13,6 +13,26 @@ SigninLogs
 | project Identity, Latitude, Longitude, City, Country, LoginCount, friendly_label = strcat(Identity, " - ", City, ", ", Country)
 ```
 ## Azure-Resource-Creation
+```
+// Only works for IPv4 Addresses
+let GeoIPDB_FULL = _GetWatchlist("geoip");
+let AzureActivityRecords = AzureActivity
+| where not(Caller matches regex @"^[{(]?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}[)}]?$")
+| where CallerIpAddress matches regex @"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
+| where OperationNameValue endswith "WRITE" and (ActivityStatusValue == "Success" or ActivityStatusValue == "Succeeded")
+| summarize ResouceCreationCount = count() by Caller, CallerIpAddress;
+AzureActivityRecords
+| evaluate ipv4_lookup(GeoIPDB_FULL, CallerIpAddress, network)
+| project Caller, 
+          CallerPrefix = split(Caller, "@")[0],  // Splits Caller UPN and takes the part before @
+          CallerIpAddress, 
+          ResouceCreationCount, 
+          Country = countryname, 
+          Latitude = latitude, 
+          Longitude = longitude, 
+          friendly_label = strcat(split(Caller, "@")[0], " - ", cityname, ", ", countryname)
+
+```
 ## Allowed-Inbound-Malicious-Flows
 ```
 let GeoIPDB_FULL = _GetWatchlist("geoip");
@@ -27,3 +47,11 @@ MaliciousFlows
 ```
 
 ## VM-Authentication-Failures
+```
+let GeoIPDB_FULL = _GetWatchlist("geoip");
+DeviceLogonEvents
+| where ActionType == "LogonFailed"
+| order by TimeGenerated desc
+| evaluate ipv4_lookup(GeoIPDB_FULL, RemoteIP, network)
+| summarize LoginAttempts = count() by RemoteIP, City = cityname, Country = countryname, friendly_location = strcat(cityname, " (", countryname, ")"), Latitude = latitude, Longitude = longitude;
+```
