@@ -1,18 +1,28 @@
 ## Directory-Login-Successes
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/login-success.png" alt="" width=800>
+
 ```
 SigninLogs
 | where ResultType == 0
 | summarize LoginCount = count() by Identity, Latitude = tostring(LocationDetails["geoCoordinates"]["latitude"]), Longitude = tostring(LocationDetails["geoCoordinates"]["longitude"]), City = tostring(LocationDetails["city"]), Country = tostring(LocationDetails["countryOrRegion"])
 | project Identity, Latitude, Longitude, City, Country, LoginCount, friendly_label = strcat(Identity, " - ", City, ", ", Country)
 ```
+
 ## Directory-Login-Failures
+
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/login-failures.png" alt="" width=800>
+
 ```
 SigninLogs
 | where ResultType == 0
 | summarize LoginCount = count() by Identity, Latitude = tostring(LocationDetails["geoCoordinates"]["latitude"]), Longitude = tostring(LocationDetails["geoCoordinates"]["longitude"]), City = tostring(LocationDetails["city"]), Country = tostring(LocationDetails["countryOrRegion"])
 | project Identity, Latitude, Longitude, City, Country, LoginCount, friendly_label = strcat(Identity, " - ", City, ", ", Country)
 ```
+
 ## Azure-Resource-Creation
+
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/azure-resource-creation.png" alt="" width=800>
+
 ```
 // Only works for IPv4 Addresses
 let GeoIPDB_FULL = _GetWatchlist("geoip");
@@ -33,7 +43,11 @@ AzureActivityRecords
           friendly_label = strcat(split(Caller, "@")[0], " - ", cityname, ", ", countryname)
 
 ```
+
 ## Allowed-Inbound-Malicious-Flows
+
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/allowed-malicious-flows.png" alt="" width=800>
+
 ```
 let GeoIPDB_FULL = _GetWatchlist("geoip");
 let MaliciousFlows = AzureNetworkAnalytics_CL 
@@ -47,6 +61,9 @@ MaliciousFlows
 ```
 
 ## VM-Authentication-Failures
+
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/vm-auth-fail.png" alt="" width=800>
+
 ```
 let GeoIPDB_FULL = _GetWatchlist("geoip");
 DeviceLogonEvents
