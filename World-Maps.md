@@ -14,9 +14,11 @@ SigninLogs
 
 ```
 SigninLogs
-| where ResultType == 0
+| where ResultType != 0 and Identity !contains "-"
 | summarize LoginCount = count() by Identity, Latitude = tostring(LocationDetails["geoCoordinates"]["latitude"]), Longitude = tostring(LocationDetails["geoCoordinates"]["longitude"]), City = tostring(LocationDetails["city"]), Country = tostring(LocationDetails["countryOrRegion"])
+| order by LoginCount desc
 | project Identity, Latitude, Longitude, City, Country, LoginCount, friendly_label = strcat(Identity, " - ", City, ", ", Country)
+
 ```
 
 ## Azure-Resource-Creation
