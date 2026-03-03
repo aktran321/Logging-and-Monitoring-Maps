@@ -10,7 +10,7 @@ SigninLogs
 
 ## Directory-Login-Failures
 
-<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/login-failures.png" alt="" width=800>
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/logging-failures.png" alt="" width=800>
 
 ```
 SigninLogs
