@@ -74,3 +74,5 @@ DeviceLogonEvents
 | evaluate ipv4_lookup(GeoIPDB_FULL, RemoteIP, network)
 | summarize LoginAttempts = count() by RemoteIP, City = cityname, Country = countryname, friendly_location = strcat(cityname, " (", countryname, ")"), Latitude = latitude, Longitude = longitude;
 ```
+
+<img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/logs.png" alt="" width=800>
