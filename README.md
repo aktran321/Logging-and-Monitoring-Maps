@@ -1,5 +1,5 @@
 ## Overview
-The Cyber Range is a shared cloud environment of close to 2000 endpoints. Below are heat maps to visually display origins of network trafficc into the range from logins, resource creation and malicious flows. 
+The Cyber Range is a shared cloud environment of close to 2000 endpoints. Below are heat maps to visually display origins of network traffic into the range from logins, resource creation and malicious flows. 
 
 ## Directory-Login-Successes
 <img src="https://github.com/aktran321/Logging-and-Monitoring-Maps/blob/main/images-maps/login-success.png" alt="" width=800>
